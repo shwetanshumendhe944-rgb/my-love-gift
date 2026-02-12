@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Everything ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Parisienne&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --pink: #ff4d6d;
+            --dark-pink: #c9184a;
+            --bg-dark: #0f0c29;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--bg-dark);
+            background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        /* --- Background Animations --- */
+        .background-elements {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        /* --- Global Styles --- */
+        .section {
+            display: none;
+            min-height: 100vh;
+            width: 100%;
+            padding: 50px 20px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInPage 1s ease-in-out forwards;
+        }
+
+        .active { display: flex; }
+
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .btn {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            background: var(--dark-pink);
+            box-shadow: 0 15px 25px rgba(255, 77, 109, 0.5);
+        }
+
+        /* --- Section Specifics --- */
+
+        /* Welcome Page */
+        #s0 h2 { font-family: 'Dancing Script', cursive; font-size: 2.2rem; line-height: 1.4; max-width: 600px; }
+
+        /* His & Her Page */
+        .couple-container { display: flex; align-items: center; justify-content: center; gap: 30px; margin: 40px 0; }
+        .photo-frame {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--pink);
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--pink);
+        }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .heart-icon { font-size: 4rem; color: #ff0000; animation: heartBeat 0.8s infinite; }
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.3); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1.2); }
+        }
+
+        /* Gallery Grid */
+        .gift-icon { font-size: 6rem; animation: swing 2s infinite ease-in-out; cursor: pointer; }
+        @keyframes swing {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 400px;
+            margin-top: 20px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: 0.5s;
+        }
+        .gallery-grid img:hover { transform: translateY(-10px); border-color: var(--pink); }
+
+        /* Day Counter */
+        .counter-box {
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 600px;
+            margin: 20px;
+        }
+        .counter-number { font-size: 4rem; color: var(--pink); font-weight: 800; display: block; }
+        .love-text { font-size: 1rem; line-height: 1.8; margin-top: 20px; color: #eee; text-align: justify; }
+
+        /* Scratch Card */
+        .card-container { width: 320px; height: 200px; perspective: 1000px; cursor: pointer; }
+        .card-inner {
+            width: 100%; height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        .flipped { transform: rotateY(180deg); }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+        .card-front { background: #1a1a1a; color: #555; border: 3px dashed #444; }
+        .card-back {
+            background: linear-gradient(45deg, #ff4d6d, #ff8fa3);
+            color: white;
+            transform: rotateY(180deg);
+            font-family: 'Parisienne', cursive;
+            font-size: 1.5rem;
+        }
+
+        /* Final Rose */
+        .rose-3d { font-size: 120px; animation: roseBounce 2s infinite ease-in-out; }
+        @keyframes roseBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-40px) scale(1.1); }
+        }
+        .final-msg { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: var(--pink); margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+    <audio id="loveSong" loop> <source src="song.mp3" type="audio/mpeg"> </audio>
+    <div class="background-elements" id="bgLayer"></div>
+
+    <section class="section active" id="s0">
+        <h2>babu hamari love story to chal hi Rahi hai per yeah mene tumhare liye banaya hai jis se hamari love story ore beutiful hojay😍💕</h2>
+        <button class="btn" onclick="initiate()">Aage Badho 💖</button>
+    </section>
+
+    <section class="section" id="s1">
+        <div class="couple-container">
+            <div class="photo-frame"><img src="me.jpg" alt="Me"></div>
+            <div class="heart-icon">❤️</div>
+            <div class="photo-frame"><img src="gf.jpg" alt="Gf"></div>
+        </div>
+        <p>You + Me = Forever</p>
+        <button class="btn" onclick="showSection(2)">Next Button</button>
+    </section>
+
+    <section class="section" id="s2">
+        <h1 style="font-family: 'Dancing Script';">open the mini gallery babu</h1>
+        <div class="gift-icon" onclick="showSection(3)">🎁</div>
+        <p style="margin-top: 20px; opacity: 0.7;">Click on the Gift</p>
+    </section>
+
+    <section class="section" id="s3">
+        <div class="gallery-grid">
+            <img src="g1.jpg"> <img src="g2.jpg">
+            <img src="g3.jpg"> <img src="g4.jpg">
+        </div>
+        <p style="margin-top: 15px;">Hamari Pyari Yaadein ✨</p>
+        <button class="btn" onclick="showSection(4)">press the button my love 😘💖</button>
+    </section>
+
+    <section class="section" id="s4">
+        <div class="counter-box">
+            <span style="font-size: 1.5rem;">Day Counter</span>
+            <span class="counter-number">205 Days</span>
+            <p style="color: var(--pink); font-weight: bold;">love still I love u so much ❤️</p>
+            <div class="love-text">
+                Aaj hamare saath ke 205 din poore ho gaye, aur sach kahu to har ek din mere liye ek chhoti si khushi ka tohfa raha hai. Tumhari hasi, tumhari baatein, tumhara gussa bhi mujhe utna hi pyara lagta hai. In 205 dino me maine sirf waqt nahi, balki dil se pyaar mehsoos kiya hai. Tum meri aadat ban chuki ho, meri smile ka reason aur mere har din ka sabse khoobsurat hissa. Main bas itna chahta hoon ki ye safar yun hi chalta rahe, aur hum har din ek dusre ko aur zyada pyaar karte rahein. ❤️✨
+            </div>
+        </div>
+        <button class="btn" onclick="showSection(5)">🤭💕 chalo aage badho darling</button>
+    </section>
+
+    <section class="section" id="s5">
+        <h2 style="margin-bottom: 30px; font-family: 'Dancing Script';">mere pyaare se bache ke liye meri yeah dil ki</h2>
+        <div class="card-container" id="scratchCard" onclick="handleFlip()">
+            <div class="card-inner" id="inner">
+                <div class="card-front">SCRATCH CARD 🖤 (Click to Scratch)</div>
+                <div class="card-back">
+                    Mela bacha thank you tum mere life me aayi ore mere life ko bohot sundar baana diya I love u so much
+                </div>
+            </div>
+        </div>
+        <button class="btn" id="nextToRose" style="visibility: hidden;" onclick="showSection(6)">Next Page</button>
+    </section>
+
+    <section class="section" id="s6">
+        <div class="rose-3d">🌹</div>
+        <div class="final-msg">happy valentine's day my love</div>
+        <div class="counter-box">
+            <p>Tumhare saath har din special lagta hai, par aaj ka din sirf tumhare naam. Thank you meri life itni pyaari banane ke liye.</p>
+            <hr style="margin: 20px 0; opacity: 0.2;">
+            <p style="font-size: 0.9rem; opacity: 0.8;">I hope tumhe yeh website pasand aayi hogi. Maine ise puri mehnat aur dil se sirf tumhare liye banayi hai. 💌✨</p>
+        </div>
+    </section>
+
+    <script>
+        // Start Music and Show Next
+        function initiate() {
+            document.getElementById('loveSong').play();
+            showSection(1);
+        }
+
+        // Section Navigation
+        function showSection(num) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('s' + num).classList.add('active');
+            
+            // Trigger Confetti on Gallery and Rose
+            if(num === 3 || num === 6) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // Scratch Card Flip
+        function handleFlip() {
+            document.getElementById('inner').classList.add('flipped');
+            setTimeout(() => {
+                document.getElementById('nextToRose').style.visibility = 'visible';
+            }, 1000);
+        }
+
+        // Falling Elements (Hearts & Stars)
+        const bg = document.getElementById('bgLayer');
+        const icons = ['❤️', '⭐', '✨', '💖'];
+        
+        setInterval(() => {
+            const el = document.createElement('div');
+            el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            el.style.position = 'absolute';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.top = '-50px';
+            el.style.fontSize = Math.random() * 20 + 10 + 'px';
+            el.style.animation = `fall ${Math.random() * 5 + 3}s linear forwards`;
+            el.style.opacity = Math.random();
+            bg.appendChild(el);
+            setTimeout(() => el.remove(), 7000);
+        }, 200);
+    </script>
+</body>
+</html>
